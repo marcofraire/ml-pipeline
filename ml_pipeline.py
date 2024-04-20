@@ -20,6 +20,8 @@ def prepare_and_send_data(df: pd.DataFrame, load_type: str, env: str = 'producti
             value = row[column_name]
             if data_type == 'int':
                 payload[key] = int(value)
+            elif data_type == 'float':
+                payload[key] = float(value)
             elif data_type == 'bool':
                 payload[key] = bool(value)
             elif data_type == 'date':
