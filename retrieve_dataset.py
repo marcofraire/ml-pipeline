@@ -38,7 +38,7 @@ class NewEbayListings:
         return df
 
     def predict_signed(self, df):
-        df['is_signed'] , df['is_signed_probability']= zip(*df.apply(lambda x: self.is_signed_model(x['title']), axis=1))
+        df['signed'] , df['is_signed_probability']= zip(*df.apply(lambda x: self.is_signed_model(x['title']), axis=1))
         return df
 
     def predict_condition(self, df):
@@ -46,7 +46,7 @@ class NewEbayListings:
         return df
 
     def predict_sub_edition(self, df):
-        df['condition'], df['condition_probability'] = 'Not Available' , 0
+        df['sub_edition'], df['sub_edition_probability'] = 'Not Available' , 0
         return df
 
     def dataset_with_predictions(self):
