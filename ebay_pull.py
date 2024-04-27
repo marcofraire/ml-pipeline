@@ -72,12 +72,12 @@ class EbayAPI:
 # -------------------------
 class EbayScraper:
 
-    def __init__(self, edition_id):
-        self.edition_id = edition_id
+    def __init__(self, keyword):
+        self.keyword = keyword
 
     @property
     def ebay_url(self):
-      return f"https://www.ebay.com/sch/i.html?_from=R40&_nkw={config_ebay_sales_keywords[EDITION_ID]}&_sacat=0&rt=nc&LH_Sold=1&LH_Complete=1&_ipg=240"
+      return f"https://www.ebay.com/sch/i.html?_from=R40&_nkw={self.keyword}&_sacat=0&rt=nc&LH_Sold=1&LH_Complete=1&_ipg=240"
 
     def _get_soup(self):
       response = requests.get(self.ebay_url)
