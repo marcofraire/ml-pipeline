@@ -38,7 +38,7 @@ class NewEbayListings:
         return df
 
     def predict_signed(self, df):
-        df['is_signed'] , df['is_signed_probability']= zip(*df.apply(lambda x: image_binary_classifier(x['title']), axis=1))
+        df['is_signed'] , df['is_signed_probability']= zip(*df.apply(lambda x: self.is_signed_model(x['title']), axis=1))
         return df
 
     def predict_condition(self, df):
