@@ -31,6 +31,7 @@ load_db_configurations = {
         "payload_template": {
             "edition_id": ("edition_id", "int"),
             "img_link": ("galleryURL", "str"),
+            "title": ("title", "str"),
             "price": ("price", "float"),
             "reduced": ("reduced", "int"),
             "seller": ("seller", "str"),
