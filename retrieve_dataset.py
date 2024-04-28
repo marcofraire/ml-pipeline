@@ -45,10 +45,11 @@ class EbayListingPipeline:
 
     def dataset_with_predictions(self):
         df = self.retrieve_listings()
-        df = self.predict_edition(df)
-        df = self.predict_signed(df)
-        df = self.predict_condition(df)
-        df = self.predict_sub_edition(df)
+        if not df.empty:
+            df = self.predict_edition(df)
+            df = self.predict_signed(df)
+            df = self.predict_condition(df)
+            df = self.predict_sub_edition(df)
         return df
 class NewEbayListingsPipeline(EbayListingPipeline):
     def __init__(self, db_details, edition_id, app_id):
