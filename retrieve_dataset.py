@@ -97,7 +97,7 @@ class NewEbaySalesPipeline(EbayListingPipeline):
         # df_total.drop(['edition_id'], axis=1, inplace=True)
 
         # ML Books
-        df_ml_books = QueryMLBooks(self.db_details, self.edition_id).query_db() #Just added: error could be here
+        df_ml_books = QueryMLBooks(self.db_details, self.edition_id).query_db() 
         df_ml_books = df_ml_books[df_ml_books['label']==False]
         df_total = pd.merge(df_total, df_ml_books, on='img_link', how='left')
         df_total['edition_id'] = self.edition_id
