@@ -1,4 +1,4 @@
-from db_interaction import prepare_and_send_data
+from load_file import EbayListingsLoad, EbaySalesLoad
 from retrieve_dataset import NewEbayListingsPipeline, NewEbaySalesPipeline
 from utils import get_file_paths, move_file_to_folder, get_timestamp
 from config_ml import config_edition_ml, PREDICTION_FILES_DIRECTORY, ARCHIVE_FILES_DIRECTORY
@@ -15,19 +15,11 @@ def create_prediction_files(db_details, app_id, editions, files = ['ebay_listing
         df.to_excel(f"{PREDICTION_FILES_DIRECTORY}sales_{config_edition_ml[ed]['file_name']}_{get_timestamp()}.xlsx")
 
 
-def load_files_db():
+def load_files_db(env= "production"):
     for f in get_file_paths(PREDICTION_FILES_DIRECTORY):
         df = pd.read_excel(f)
-        if "correct" in df.columns:
-          if "listings" in f:
-              prepare_and_send_data(df, "ml_book", env = 'production' )
-              df = df[df['correct']==True]
-              prepare_and_send_data(df, "ebay_listings", env = 'production' )
-          elif "sales" in f:
-              df['sale_data'] = pd.to_datetime(df['sale_data']).dt.strftime('%Y-%m-%d')
-              prepare_and_send_data(df, "ml_book", env = 'production' )
-              df = df[df['correct']==True]
-              prepare_and_send_data(df, "ebay_sales", env = 'production' )
-          move_file_to_folder(f, ARCHIVE_FILES_DIRECTORY)
-        else:
-          pass
+        if "listings" in f:
+            EbayListingsLoad(df, env).load_db()
+        elif "sales" in f:
+            EbaySalesLoad.load_db(df, env)
+        move_file_to_folder(f, ARCHIVE_FILES_DIRECTORY)

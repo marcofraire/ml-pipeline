@@ -3,8 +3,8 @@ import requests
 import json
 from datetime import datetime
 from config_load_db import load_db_configurations
-
-
+from utils import move_file_to_folder, get_file_paths
+from abc import ABC, abstractmethod
 def prepare_and_send_data(df: pd.DataFrame, load_type: str, env: str = "production"):
 
     config = load_db_configurations.get(load_type)
@@ -45,3 +45,49 @@ def prepare_and_send_data(df: pd.DataFrame, load_type: str, env: str = "producti
             )
         else:
             print(f"Successfully sent data.")
+
+
+
+
+class LoadFile:
+    def __init__(self, df, env ):
+        self.df = df
+        self.env = env
+    
+    def is_edited(self):
+        if "correct" in self.df.columns:
+            return True
+        else:
+            return False
+    
+    @property
+    def df_positives(self):
+        return self.df[self.df["correct"] == True]
+
+    def preprocess_file(self):
+        pass
+    
+    def load_ml_books(self):
+        prepare_and_send_data(self.df, "ml_book", env = self.env)
+    
+    @abstractmethod
+    def load_positive_table(self):
+        pass 
+
+    def load_db(self):
+        if self.is_edited():
+            self.preprocess_file()
+            self.load_ml_books()
+            self.load_positive_table()
+        pass
+
+class EbayListingsLoad(LoadFile):
+    def load_positive_table(self):
+        prepare_and_send_data(self.df_positives, "ebay_listings", env = self.env) 
+
+class EbaySalesLoad(LoadFile):
+    def preprocess_file(self):
+        self.df['sale_data'] = pd.to_datetime(self.df['sale_data']).dt.strftime('%Y-%m-%d')
+
+    def load_positive_table(self):
+        prepare_and_send_data(self.df_positives, "ebay_sales", env = self.env) 
