@@ -102,6 +102,6 @@ class NewEbaySalesPipeline(EbayListingPipeline):
         df_total['edition_id'] = self.edition_id
         # As I am checking already in DB and here i should only have negatives
         df_total = df_total[df_total['label'].isna()]
-        df_total.rename(columns = {'img_link': 'galleryURL'}, inplace = True)
-
+        df_total.drop(['label'], axis=1, inplace=True)
+        # df_total.rename(columns = {'img_link': 'galleryURL'}, inplace = True)
         return df_total
