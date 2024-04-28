@@ -14,6 +14,10 @@ class EbayListingPipeline:
     def retrieve_listings(self):
         pass
 
+    @property
+    def edition_ml_model_path(self):
+        return f"{ML_MODELS_DIRECTORY}{config_edition_ml[self.edition_id]['ml_model']}"
+
     @staticmethod
     def is_signed_model(title):
         if 'signed' in title.lower():
@@ -51,9 +55,7 @@ class NewEbayListingsPipeline(EbayListingPipeline):
         super().__init__(db_details, edition_id)
         self.app_id = app_id
 
-    @property
-    def edition_ml_model_path(self):
-        return f"{ML_MODELS_DIRECTORY}{config_edition_ml[self.edition_id]['ml_model']}"
+
 
     def retrieve_listings(self):
         df_ebay = EbayAPI(
