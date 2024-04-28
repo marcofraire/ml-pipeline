@@ -3,12 +3,16 @@ from config_ml import config_edition_ml, ML_MODELS_DIRECTORY
 from ebay_pull import EbayAPI, EbayScraper
 from query_db import QueryMLBooks, QueryEbayListings, QueryEbaySalesLinks
 from ml_model import image_binary_classifier
-
+from abc import ABC, abstractmethod  
 
 class EbayListingPipeline:
     def __init__(self, db_details, edition_id):
         self.db_details = db_details
         self.edition_id = edition_id
+
+    @abstractmethod
+    def retrieve_listings(self):
+        pass
 
     @staticmethod
     def is_signed_model(title):
@@ -36,7 +40,7 @@ class EbayListingPipeline:
         return df
 
     def dataset_with_predictions(self):
-        df = self.retrieve_new_ebay_listings()
+        df = self.retrieve_listings()
         df = self.predict_edition(df)
         df = self.predict_signed(df)
         df = self.predict_condition(df)
@@ -51,7 +55,7 @@ class NewEbayListingsPipeline(EbayListingPipeline):
     def edition_ml_model_path(self):
         return f"{ML_MODELS_DIRECTORY}{config_edition_ml[self.edition_id]['ml_model']}"
 
-    def retrieve_new_ebay_listings(self):
+    def retrieve_listings(self):
         df_ebay = EbayAPI(
             self.app_id, config_edition_ml[self.edition_id]['ebay_api_keywords']).ebay_listings()
 
@@ -71,7 +75,7 @@ class NewEbaySalesPipeline(EbayListingPipeline):
         keyword = config_edition_ml[self.edition_id]['ebay_api_keywords']
         return keyword.replace(" ", "+")
 
-    def retrieve_new_ebay_sales(self):
+    def retrieve_listings(self):
 
         df_ebay = EbayScraper(self.keyword).get_output()
 
