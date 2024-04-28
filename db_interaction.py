@@ -36,7 +36,7 @@ def prepare_and_send_data(df: pd.DataFrame, load_type: str, env: str = "producti
             else:
                 payload[key] = value
 
-        print(json.dumps(payload, indent=2))
+        # print(json.dumps(payload, indent=2))
         response = requests.post(url, json=payload, headers=headers)
 
         if response.status_code != 200:
