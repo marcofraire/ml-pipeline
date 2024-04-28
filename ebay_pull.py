@@ -87,10 +87,8 @@ class EbayScraper:
       return self._get_soup().find_all("li", class_="s-item s-item__pl-on-bottom")[1:]
 
     def get_output(self):
-      print(self.ebay_url)
       output = []
       for i in self._get_items():
-        print(i)
         try:
           clean_item = BookListing(i)
           item_dict = {
