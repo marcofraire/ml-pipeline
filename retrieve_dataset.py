@@ -89,15 +89,16 @@ class NewEbaySalesPipeline(EbayListingPipeline):
         df_total.drop(['img_link_db'], axis=1, inplace=True)
 
         # check if actual useful
-        df_ebay_listings = QueryEbayListings(
-            self.db_details, self.edition_id).query_db()
-        df_total = pd.merge(df_total, df_ebay_listings,
-                            on='img_link', how='left')
-        df_total['correct'] = df_total['edition_id'].notna()
-        df_total.drop(['edition_id'], axis=1, inplace=True)
+        # df_ebay_listings = QueryEbayListings(
+        #     self.db_details, self.edition_id).query_db()
+        # df_total = pd.merge(df_total, df_ebay_listings,
+        #                     on='img_link', how='left')
+        # df_total['correct'] = df_total['edition_id'].notna()
+        # df_total.drop(['edition_id'], axis=1, inplace=True)
 
         # ML Books
-        df_ml_books = QueryMLBooks(self.db_details, self.edition_id).query_db()
+        df_ml_books = QueryMLBooks(self.db_details, self.edition_id).query_db() #Just added: error could be here
+        df_ml_books = df_ml_books[df_ml_books['label']==False]
         df_total = pd.merge(df_total, df_ml_books, on='img_link', how='left')
         df_total['edition_id'] = self.edition_id
         # As I am checking already in DB and here i should only have negatives
