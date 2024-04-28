@@ -21,5 +21,7 @@ def load_files_db(env= "production"):
         if "listings" in f:
             EbayListingsLoad(df, env).load_db()
         elif "sales" in f:
-            EbaySalesLoad.load_db(df, env)
-        move_file_to_folder(f, ARCHIVE_FILES_DIRECTORY)
+            EbaySalesLoad(df, env).load_db()
+        
+        if "correct" in df.columns: #This is duplicate from load_db, to be fixed
+            move_file_to_folder(f, ARCHIVE_FILES_DIRECTORY)
