@@ -74,7 +74,7 @@ class NewEbaySales:
     def retrieve_new_ebay_sales(self):
 
         # to be changed with edition_id pull
-        df_ebay = EbayScraper(self.fkeyword).get_output()
+        df_ebay = EbayScraper(self.keyword).get_output()
 
         df_db = QueryEbaySalesLinks(
             self.db_details, self.edition_id).query_db()
