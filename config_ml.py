@@ -2,7 +2,7 @@ ML_MODELS_DIRECTORY = '/content/drive/My Drive/Tech/Production/ML_Models/'
 PREDICTION_FILES_DIRECTORY = '/content/drive/My Drive/Tech/Production/Edition_Prediction_Files/New/'
 ARCHIVE_FILES_DIRECTORY = '/content/drive/My Drive/Tech/Production/Edition_Prediction_Files/Archive/'
 
-ML_MODELS_DIRECTORY = '/content/drive/My Drive/Tech/Model Training/'
+ML_MODELS_DIRECTORY = '/content/drive/My Drive/Tech/Model Training/Edition Recognition/'
 
 config_edition_ml = {
     '1': {
