@@ -85,7 +85,7 @@ class NewEbaySalesPipeline(EbayListingPipeline):
 
         df_db = QueryEbaySalesLinks(
             self.db_details, self.edition_id).query_db()
-        df_total = pd.merge(df_ebay, df_db, left_on='img_link',
+        df_total = pd.merge(df_ebay, df_db, left_on='img_id',
                             right_on='img_id_db', how='left')
         df_total = df_total[df_total['img_id_db'].isna()]
         df_total.drop(['img_id_db'], axis=1, inplace=True)
