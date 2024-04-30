@@ -41,7 +41,7 @@ class EbayAPI:
                 'keywords': self.keyword,
                 'paginationInput.entriesPerPage': entries_per_page,
                 'paginationInput.pageNumber': page_number,
-                'sortOrder': 'EndTimeSoonest',
+                'sortOrder': 'BestMatch',
             }
 
             response = requests.get(url, params=params)
