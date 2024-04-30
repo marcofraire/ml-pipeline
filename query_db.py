@@ -42,7 +42,7 @@ class QueryEbaySalesLinks(Query):
         self.edition_id = edition_id
 
     def compose_query(self):
-        return f"SELECT img_link as img_link_db  FROM bbourse.ebay_sales WHERE 1=1 and edition_id = {self.edition_id}"
+        return f"SELECT img_id as img_id_db  FROM bbourse.ebay_sales WHERE 1=1 and edition_id = {self.edition_id}"
 
 class QueryEbayListings(Query):
 

@@ -7,6 +7,9 @@ load_db_configurations = {
         "payload_template": {
             "edition_id": ("edition_id", "int"),
             "img_link": ("galleryURL", "str"),
+            "img_id": ("img_id", "str"),
+            "prediction": ("is_edition", "bool"),
+            "prediction_probability": ("is_edition_probability", "float"),
             "label": ("correct", "bool"),
         },
     },
@@ -18,6 +21,7 @@ load_db_configurations = {
         "payload_template": {
             "edition_id": ("edition_id", "int"),
             "img_link": ("galleryURL", "str"),
+            "img_id": ("img_id", "str"),
             "signed": ("signed", "str"),
             "condition": ("condition", "str"),
             "sub_edition": ("sub_edition", "str"),
@@ -31,6 +35,7 @@ load_db_configurations = {
         "payload_template": {
             "edition_id": ("edition_id", "int"),
             "img_link": ("galleryURL", "str"),
+            "img_id": ("img_id", "str"),
             "title": ("title", "str"),
             "price": ("price", "float"),
             "reduced": ("reduced", "int"),

@@ -2,6 +2,20 @@ import requests
 import pandas as pd
 from bs4 import BeautifulSoup
 import re
+
+# -------------------------
+# GENERAL FUNCTION
+# -------------------------
+import re
+
+def extract_img_id(img_link):
+    # Updated pattern to capture any characters except for the forward slash
+    match = re.search(r'/g/([^/]+)/', img_link)
+    if match:
+        return match.group(1)  # Returns the matched group, which is the image ID
+    else:
+        return None  
+
 # -------------------------
 # PULL FROM API
 # -------------------------
@@ -64,6 +78,8 @@ class EbayAPI:
 
         df_small = df_small[['itemId', 'title',
                              'galleryURL', 'viewItemURL', 'price']]
+        
+        df_small['img_id'] = df_small['galleryURL'].apply(extract_img_id)
         return df_small
 
 
@@ -105,8 +121,10 @@ class EbayScraper:
           output.append(item_dict)
         except:
           pass
-      return pd.DataFrame(output)
-
+      df = pd.DataFrame(output)
+      df['img_id'] = df['img_link'].apply(extract_img_id)
+      return df
+    
 class BookListing:
 
     def __init__(self, listing):

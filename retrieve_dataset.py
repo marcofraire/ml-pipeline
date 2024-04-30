@@ -63,11 +63,12 @@ class NewEbayListingsPipeline(EbayListingPipeline):
             self.app_id, config_edition_ml[self.edition_id]['ebay_api_keywords']).ebay_listings()
 
         df_db = QueryMLBooks(self.db_details, self.edition_id).query_db()
+        df_db.rename(columns={'img_id': 'img_id_db'}, inplace=True)
         df_total = pd.merge(
-            df_ebay, df_db['img_link'], left_on='galleryURL', right_on='img_link', how='left')
-        df_total = df_total[df_total['img_link'].isna()]
+            df_ebay, df_db['img_id_db'], left_on='img_id', right_on='img_id_db', how='left')
+        df_total = df_total[df_total['img_id_db'].isna()]
         df_total['edition_id'] = self.edition_id
-        df_total.drop(['img_link'], axis=1, inplace=True)
+        df_total.drop(['img_id_db'], axis=1, inplace=True)
         return df_total
 
 
@@ -85,22 +86,14 @@ class NewEbaySalesPipeline(EbayListingPipeline):
         df_db = QueryEbaySalesLinks(
             self.db_details, self.edition_id).query_db()
         df_total = pd.merge(df_ebay, df_db, left_on='img_link',
-                            right_on='img_link_db', how='left')
-        df_total = df_total[df_total['img_link_db'].isna()]
-        df_total.drop(['img_link_db'], axis=1, inplace=True)
-
-        # check if actual useful
-        # df_ebay_listings = QueryEbayListings(
-        #     self.db_details, self.edition_id).query_db()
-        # df_total = pd.merge(df_total, df_ebay_listings,
-        #                     on='img_link', how='left')
-        # df_total['correct'] = df_total['edition_id'].notna()
-        # df_total.drop(['edition_id'], axis=1, inplace=True)
+                            right_on='img_id_db', how='left')
+        df_total = df_total[df_total['img_id_db'].isna()]
+        df_total.drop(['img_id_db'], axis=1, inplace=True)
 
         # ML Books
         df_ml_books = QueryMLBooks(self.db_details, self.edition_id).query_db() 
         df_ml_books = df_ml_books[df_ml_books['label']==False]
-        df_total = pd.merge(df_total, df_ml_books, on='img_link', how='left')
+        df_total = pd.merge(df_total, df_ml_books[['img_id','label']], on='img_id', how='left')
         df_total['edition_id'] = self.edition_id
         # As I am checking already in DB and here i should only have negatives
         df_total = df_total[df_total['label'].isna()]
