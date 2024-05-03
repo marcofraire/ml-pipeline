@@ -1,4 +1,4 @@
-ML_MODELS_DIRECTORY = '/content/drive/My Drive/Tech/Production/ML_Models/'
+ML_MODELS_DIRECTORY_PRODUCTION = '/content/drive/My Drive/Tech/Production/ML_Models/'
 PREDICTION_FILES_DIRECTORY = '/content/drive/My Drive/Tech/Production/Edition_Prediction_Files/New/'
 ARCHIVE_FILES_DIRECTORY = '/content/drive/My Drive/Tech/Production/Edition_Prediction_Files/Archive/'
 

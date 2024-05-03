@@ -1,5 +1,5 @@
 import pandas as pd
-from config_ml import config_edition_ml, ML_MODELS_DIRECTORY
+from config_ml import config_edition_ml, ML_MODELS_DIRECTORY_PRODUCTION
 from ebay_pull import EbayAPI, EbayScraper
 from query_db import QueryMLBooks, QueryEbayListings, QueryEbaySalesLinks
 from ml_model import image_binary_classifier
@@ -16,7 +16,7 @@ class EbayListingPipeline:
 
     @property
     def edition_ml_model_path(self):
-        return f"{ML_MODELS_DIRECTORY}{config_edition_ml[self.edition_id]['ml_model']}"
+        return f"{ML_MODELS_DIRECTORY_PRODUCTION}{config_edition_ml[self.edition_id]['ml_model']}"
 
     @staticmethod
     def is_signed_model(title):
