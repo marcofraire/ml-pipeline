@@ -56,14 +56,19 @@ class NewEbayListingsPipeline(EbayListingPipeline):
         super().__init__(db_details, edition_id)
         self.app_id = app_id
 
+    def ebay_listings(self):
+        df_ebay = EbayAPI(self.app_id, config_edition_ml[self.edition_id]['ebay_api_keywords']).ebay_listings()
+        return df_ebay
 
-
+    def ml_books(self):
+        df_ml_books = QueryMLBooks(self.db_details, self.edition_id).query_db()
+        df_ml_books.rename(columns={'img_id': 'img_id_db'}, inplace=True)
+        return df_ml_books
+    
     def retrieve_listings(self):
-        df_ebay = EbayAPI(
-            self.app_id, config_edition_ml[self.edition_id]['ebay_api_keywords']).ebay_listings()
+        df_ebay = self.ebay_listings()
+        df_db = self.ml_books()
 
-        df_db = QueryMLBooks(self.db_details, self.edition_id).query_db()
-        df_db.rename(columns={'img_id': 'img_id_db'}, inplace=True)
         df_total = pd.merge(
             df_ebay, df_db['img_id_db'], left_on='img_id', right_on='img_id_db', how='left')
         df_total = df_total[df_total['img_id_db'].isna()]
