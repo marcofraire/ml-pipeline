@@ -75,13 +75,15 @@ class ModelTraining:
         )
 
     def test_model(self):
+        """Tests the trained model on the test dataset and returns the accuracy."""
         test_datagen = ImageDataGenerator(preprocessing_function=preprocess_input)
         test_generator = test_datagen.flow_from_directory(
             self.test_directory,
             target_size=(224, 224),
-            batch_size=1,
-            class_mode='binary',
-            shuffle=False
-        )
-        predictions = self.model.predict(test_generator, steps=test_generator.samples)
-        return predictions, test_generator
+            batch_size=1,  # Process one image at a time for accuracy calculation
+            class_mode='binary',  # Since this is binary classification
+            shuffle=False)
+
+        # Evaluate the model
+        loss, accuracy = self.model.evaluate(test_generator, steps=test_generator.samples)
+        return accuracy
