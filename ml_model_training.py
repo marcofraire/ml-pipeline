@@ -6,7 +6,7 @@ from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from tensorflow.keras.applications.mobilenet_v2 import preprocess_input
 from config_ml import ML_MODELS_DIRECTORY
-
+from utils import get_timestamp
 class ModelTraining:
     def __init__(self, edition_id, base_model=None):
         self.edition_id = edition_id
@@ -87,3 +87,7 @@ class ModelTraining:
         # Evaluate the model
         loss, accuracy = self.model.evaluate(test_generator, steps=test_generator.samples)
         return accuracy
+    
+    def save_model(self):
+        """Saves the trained model to a file."""
+        self.model.save(f'{ML_MODELS_DIRECTORY}/{self.edition_id}/Images/Models/{self.edition_id}_model_{get_timestamp()}.h5')
