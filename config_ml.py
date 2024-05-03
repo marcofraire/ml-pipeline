@@ -12,5 +12,7 @@ config_edition_ml = {
     },
     '2': {
         'ebay_api_keywords': 'A game of thrones first edition uk',
+        'ml_model': '2_model_2024-05-03 09:43:07.h5',
+        'file_name': 'AGOT_1_UK'
     }
 }
