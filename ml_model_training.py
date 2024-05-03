@@ -90,4 +90,4 @@ class ModelTraining:
     
     def save_model(self):
         """Saves the trained model to a file."""
-        self.model.save(f'{ML_MODELS_DIRECTORY}/{self.edition_id}/Images/Models/{self.edition_id}_model_{get_timestamp()}.h5')
+        self.model.save(f'{ML_MODELS_DIRECTORY}/{self.edition_id}/Models/{self.edition_id}_model_{get_timestamp()}.h5')
