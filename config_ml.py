@@ -11,6 +11,6 @@ config_edition_ml = {
         'file_name': 'AGOT_1_US'
     },
     '2': {
-        'ebay_api_keywords': 'A game of thrones first edition',
+        'ebay_api_keywords': 'A game of thrones first edition uk',
     }
 }

@@ -9,7 +9,8 @@ def pull_ebay_images(app_id, edition_id, total_entries = 1000):
     df.to_excel(f'{ML_MODELS_DIRECTORY}/{edition_id}/Images/ebay_images_{get_timestamp()}.xlsx', index=False)
     return df
 
-def save_images(path, edition_id):
+def save_images(file_name, edition_id):
+  path = f'{ML_MODELS_DIRECTORY}/{edition_id}/Images/{file_name}.xlsx'
   df = pd.read_excel(path)
   folder = f'{ML_MODELS_DIRECTORY}/{edition_id}/Images/Train/'
   for index, row in df.iterrows():
@@ -22,9 +23,10 @@ def save_images(path, edition_id):
       download_and_save_image(image_url, label, image_name, folder)
 
 def move_images_to_test(edition_id, percentage):
-  train_dir = f'{ML_MODELS_DIRECTORY}/{edition_id}/Images/Train/'
-  test_dir = f'{ML_MODELS_DIRECTORY}/{edition_id}/Images/Test/'
+  train_dir = f'{ML_MODELS_DIRECTORY}{edition_id}/Images/Train/'
+  test_dir = f'{ML_MODELS_DIRECTORY}{edition_id}/Images/Test/'
   move_images(train_dir, test_dir, percentage)
 
-def train_model():
-    pass
+
+def function_one():
+   return 15
