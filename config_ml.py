@@ -15,4 +15,10 @@ config_edition_ml = {
         'ml_model': '2_model_2024-05-03 09:43:07.h5',
         'file_name': 'AGOT_1_UK'
     }
+    ,
+    '3': {
+        'ebay_api_keywords': 'The Name of the Wind first edition',
+        'ml_model': 'xx',
+        'file_name': 'Name_of_the_wind_1'
+    }
 }
