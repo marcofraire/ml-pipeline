@@ -30,6 +30,7 @@ class EbayListingPipeline:
             *df.apply(lambda x: image_binary_classifier(self.edition_ml_model_path, x['galleryURL']), axis=1))
         return df
 
+    
     def predict_signed(self, df):
         df['signed'], df['is_signed_probability'] = zip(
             *df.apply(lambda x: self.is_signed_model(x['title']), axis=1))
