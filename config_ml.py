@@ -18,7 +18,7 @@ config_edition_ml = {
     ,
     '3': {
         'ebay_api_keywords': 'The Name of the Wind first edition',
-        'ml_model': 'xx',
+        'ml_model': '3_model_2024-05-03 17:43:07.h5',
         'file_name': 'Name_of_the_wind_1'
     }
 }

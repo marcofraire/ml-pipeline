@@ -11,6 +11,7 @@ def pull_ebay_images(app_id, edition_id, total_entries = 1000):
 
 def save_images(file_name, edition_id):
   path = f'{ML_MODELS_DIRECTORY}/{edition_id}/Images/{file_name}.xlsx'
+  print(path)
   df = pd.read_excel(path)
   folder = f'{ML_MODELS_DIRECTORY}/{edition_id}/Images/Train/'
   for index, row in df.iterrows():

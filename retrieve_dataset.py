@@ -73,6 +73,7 @@ class NewEbayListingsPipeline(EbayListingPipeline):
         df_total = pd.merge(
             df_ebay, df_db['img_id_db'], left_on='img_id', right_on='img_id_db', how='left')
         df_total = df_total[df_total['img_id_db'].isna()]
+        
         df_total['edition_id'] = self.edition_id
         df_total.drop(['img_id_db'], axis=1, inplace=True)
         return df_total
