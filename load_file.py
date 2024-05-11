@@ -5,6 +5,7 @@ from datetime import datetime
 from config_load_db import load_db_configurations
 from utils import move_file_to_folder, get_file_paths
 from abc import ABC, abstractmethod
+import numpy as np
 def prepare_and_send_data(df: pd.DataFrame, load_type: str, env: str = "production"):
 
     config = load_db_configurations.get(load_type)
@@ -25,6 +26,19 @@ def prepare_and_send_data(df: pd.DataFrame, load_type: str, env: str = "producti
                 payload[key] = float(value)
             elif data_type == "bool":
                 payload[key] = bool(value)
+            elif data_type == "list_float":
+                if isinstance(value, str):
+                    try:
+                        float_list = json.loads(value)
+                        payload[key] = [float(item) for item in float_list]
+                    except json.JSONDecodeError:
+                        print(f"Error processing JSON string for {column_name}")
+                elif isinstance(value, (list, pd.Series, np.ndarray)):
+                    try:
+                        float_list = [float(item) for item in value]
+                        payload[key] = float_list
+                    except ValueError:
+                        print(f"Error processing list of floats for {column_name}")
             elif data_type == "date":
                 try:
                     date_obj = datetime.strptime(value, "%Y-%m-%d")
@@ -91,3 +105,4 @@ class EbaySalesLoad(LoadFile):
 
     def load_positive_table(self):
         prepare_and_send_data(self.df_positives, "ebay_sales", env = self.env) 
+

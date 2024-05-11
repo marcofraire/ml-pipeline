@@ -52,3 +52,24 @@ class QueryEbayListings(Query):
 
     def compose_query(self):
         return f"SELECT * FROM bbourse.ebay_listings WHERE 1=1 and edition_id = {self.edition_id}"
+    
+class QueryBookEditionNoFeature(Query):
+    def compose_query(self):
+        return """SELECT 
+                    edition_id
+                    ,(edition_details::json) ->>'image' as image_link 
+                FROM bbourse.book_editions 
+                WHERE 1=1 
+                    and edition_id NOT IN (SELECT edition_id from bbourse.image_features)"""
+    
+class QueryAllEditionImageLinks(Query):
+    def compose_query(self):
+        return """select (edition_details::json) ->>'image' as image_link  from bbourse.book_editions be """
+    
+class QueryImageFeatures(Query):
+    def compose_query(self):
+        return """select * from bbourse.image_features """
+    
+class QueryListingsMissingEdition(Query):
+    def compose_query(self):
+        return """select img_id, img_link, title from bbourse.book_listings where edition_id is null """
