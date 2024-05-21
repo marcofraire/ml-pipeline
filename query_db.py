@@ -72,4 +72,8 @@ class QueryImageFeatures(Query):
     
 class QueryListingsMissingEdition(Query):
     def compose_query(self):
-        return """select img_id, img_link, title from bbourse.book_listings where edition_id is null """
+        return """select img_id, img_link, title from bbourse.book_listings where is_book  is not null and edition_id is null  """
+    
+class QueryListingsMissingIsBook(Query):
+    def compose_query(self):
+        return """select img_id, img_link, title from bbourse.book_listings where is_book is null """

@@ -27,7 +27,3 @@ def move_images_to_test(edition_id, percentage):
   train_dir = f'{ML_MODELS_DIRECTORY}{edition_id}/Images/Train/'
   test_dir = f'{ML_MODELS_DIRECTORY}{edition_id}/Images/Test/'
   move_images(train_dir, test_dir, percentage)
-
-
-def function_one():
-   return 15
